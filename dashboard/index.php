@@ -16,6 +16,7 @@ include(ROOT_PATH ."header.php");?>
                     <section>
                         <div id="banner2" class="banner spacer" style="background-image:url(<?php echo BASE_URL; ?>images/background-4.svg);">
                             <div class="container">
+							acaz	
                                 <div class="row justify-content-center">
                                     <div class="col-md-12 col-lg-12 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1500">
                                        
@@ -150,7 +151,7 @@ if(localStorage.token == undefined){
 	window.location = '../login.html';
 }
 else{
-	
+
 	$.ajax({
 		url:'../config/request.php',
 		type:'POST',
