@@ -8622,19 +8622,37 @@ $("#book").on('keyup',function(){
 });
 	$("#sb").on('click',function(){
 		console.log(res[resIndex]);
-				data = {
-					title: res[resIndex],
+		// function redirectPost(url, data) {
+		// 	var form = document.createElement('form');
+		// 	document.body.appendChild(form);
+		// 	form.method = 'post';
+		// 	form.action = url;
+		// 	for (var name in data) {
+		// 		var input = document.createElement('input');
+		// 		input.type = 'hidden';
+		// 		input.name = name;
+		// 		input.value = data[name];
+		// 		form.appendChild(input);
+		// 	}
+		// 	form.submit();
+		// }
+		// $.extend(res[resIndex],{
+		// 	type: 'book'
+		// })
+		$.redirect('cite-book.php', {data: JSON.stringify(res[resIndex])} );
+				// data = {
+				// 	title: res[resIndex],
 					
-				}
-				$.ajax({
-					url:"test",
-					type:'post',
-					data:data,
+				// }
+				// $.ajax({
+				// 	url:"test",
+				// 	type:'post',
+				// 	data:data,
 					
-					success:function(){
+				// 	success:function(){
 						
-					}
-				});
+				// 	}
+				// });
 			});
 			
 			
@@ -8711,20 +8729,9 @@ $("#book").on('keyup',function(){
 		
 	});
 	$("#sb-article").on('click',function(){
+		// var datax = artRes[artIndex];
 		console.log(artRes [artIndex]);
-				data = {
-					title: artRes[artIndex],
-					
-				}
-				$.ajax({
-					url:"test",
-					type:'post',
-					data:data,
-					
-					success:function(){
-						
-					}
-				});
+			$.redirect('cite-article.php', {data: JSON.stringify(artRes [artIndex])} );
 			});
 	
 	//Signup Function
@@ -8936,8 +8943,13 @@ $("#login_form").on('submit',function(){
 				}, 5000);
 			}
 			if(res.status == "success"){
+				$("#login_form").find('input').prev().children().removeClass("form-text-error");
+				$("#login_form").find('input').prev().children().addClass("form-text-success");
+				$("#login_form").find('input').removeClass("form-error");
+				$("#login_form").find('input').addClass("form-success");
 				localStorage.token = res.token;
-				console.log(localStorage.token);
+				// console.log(localStorage.token);
+				window.location = 'dashboard';
 			}
 		}
 	});

@@ -21,6 +21,12 @@ class ComposerStaticInit63b720f90dc1d242eda14cb25f2669c6
             'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Intl\\Idn\\' => 26,
             'Symfony\\Polyfill\\Iconv\\' => 23,
+            'Seboettg\\Collection\\' => 20,
+            'Seboettg\\CiteProc\\' => 18,
+        ),
+        'M' => 
+        array (
+            'MyCLabs\\Enum\\' => 13,
         ),
         'F' => 
         array (
@@ -52,6 +58,18 @@ class ComposerStaticInit63b720f90dc1d242eda14cb25f2669c6
         'Symfony\\Polyfill\\Iconv\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-iconv',
+        ),
+        'Seboettg\\Collection\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seboettg/collection/src/Seboettg/Collection',
+        ),
+        'Seboettg\\CiteProc\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/seboettg/citeproc-php/src',
+        ),
+        'MyCLabs\\Enum\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/php-enum/src',
         ),
         'Firebase\\JWT\\' => 
         array (

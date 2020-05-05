@@ -30,8 +30,7 @@ if($emailValid == false){
                         $payload = array(
                             "iss" => "http://example.org",
                             "aud" => "http://example.com",
-                            "iat" => $now,                            
-                            "exp"  => 3600,
+                            "iat" => 1356999524,
                             "nbf" => 1357000000,
                             "data"=>array(
                                 // "name" => "ganesh",

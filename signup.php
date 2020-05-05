@@ -246,5 +246,10 @@ include(ROOT_PATH ."header.php");?>
 							</div>
 						</div>
 					</section>
-                </div>
+				</div>
+				<script>
+                if(localStorage.token){
+                    window.location = '<?php echo BASE_URL;?>dashboard';
+                }
+            </script>
 <?php include('footer.php');?>

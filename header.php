@@ -18,7 +18,7 @@ require_once('config/config.php');
     <!-- Bootstrap Core CSS -->
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link href="<?php echo BASE_URL; ?>assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-	
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.16/dist/css/bootstrap-select.min.css">
 	    <link href="<?php echo BASE_URL; ?>css/font-awesome.min.css" rel="stylesheet">
 			    <link href="<?php echo BASE_URL; ?>css/iconmind.css" rel="stylesheet">
     <!-- This is for the animation CSS -->
@@ -65,7 +65,7 @@ require_once('config/config.php');
                     <div class="container">
                         <!-- Header 1 code -->
                         <nav class="navbar navbar-expand-lg h11-nav">
-                            <a class="navbar-brand" href="#"><img src="../assets/images/logos/blue-logo-text.jpg" alt="wrapkit"></a>
+                            <a class="navbar-brand" href="<?php echo BASE_URL;?>"><img src="../assets/images/logos/blue-logo-text.jpg" alt="wrapkit"></a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header11" aria-expanded="false" aria-label="Toggle navigation"><span class="ti-menu"></span></button>
                             <div class="collapse navbar-collapse hover-dropdown flex-column" id="header11">
                                 <div class="ml-auto h11-topbar">
@@ -75,15 +75,15 @@ require_once('config/config.php');
                                         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                         <li>
 											<div class="rounded-button" id="login-logout">
-														<a href="<?php echo BASE_URL;?>/login.php">Login</a> - OR - <a href="<?php echo BASE_URL;?>/signup.php">Register</a>
+														<a href="<?php echo BASE_URL;?>/login.php">Login</a> - OR - <a href="<?php echo BASE_URL;?>signup.php">Register</a>
 											</div>
 										</li>
                                     </ul>
 
                                 </div>
                                 <ul class="navbar-nav font-13 ml-auto">
-                                    <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
-                                    <li class="nav-item"><a class="nav-link" href="#">About Me</a></li>
+                                    <li class="nav-item active"><a class="nav-link" href="<?php echo BASE_URL;?>"">Home</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="<?php echo BASE_URL;?>about.php">About Me</a></li>
                                     <li class="nav-item"><a class="nav-link" href="#">Work</a></li>
                                     <li class="nav-item dropdown">
                                         <a class="nav-link dropdown-toggle" href="#" id="h11-dropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Services <i class="fa fa-angle-down m-l-5"></i>

@@ -50,7 +50,7 @@
 											<div class="card-content">
 												<div class="tab-content text-center">
 													<div class="tab-pane active" id="profile">
-														<div class="form-group">
+														<div class="form-group mb-0">
 															<input list="books" class="form-control" id="book" placeholder="Search Book" name="book"/>
 															<div class="results">
 																<ul>
@@ -59,9 +59,7 @@
 															</div>
 														</div>
 														<div class="manual">
-															<form>
-															
-															</form>
+															<a href="<?php echo BASE_URL;?>cite-book.php">Manually Cite <i class="material-icons">keyboard_arrow_right</i></a>
 														</div>
 														<div class="form-group">
 															<button id="sb" class="btn btn-danger-gradiant">Submit</button>
@@ -83,6 +81,9 @@
 																	<option value="doi">DOI</option>
 																</select>
 															</div>
+														</div>
+														<div class="manual">
+															<a href="<?php echo BASE_URL;?>cite-article.php">Manually Cite <i class="material-icons">keyboard_arrow_right</i></a>
 														</div>
 														<div class="form-group m-t-10">
 																<button id="sb-article" class="btn btn-danger-gradiant">Submit</button>

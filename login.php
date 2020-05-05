@@ -19,7 +19,7 @@ include(ROOT_PATH ."header.php");?>
                                 <div class="row justify-content-center">
                                     <div class="col-md-7 col-lg-5 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1500">
                                        
-                                        <div class="m-t-40">
+                                        <div class="mt-md-5">
                                           <div class="card card-login">
 											<form class="form" id="login_form" method="post" action="" onsubmit="return false;">
 												<div class="header header-primary text-center">
@@ -196,4 +196,9 @@ include(ROOT_PATH ."header.php");?>
 						</div>
 					</section>
                 </div>
+            <script>
+                if(localStorage.token){
+                    window.location = '<?php echo BASE_URL;?>dashboard';
+                }
+            </script>
             <?php include('footer.php');?>

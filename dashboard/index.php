@@ -15,8 +15,7 @@ include(ROOT_PATH ."header.php");?>
                 <div class="bg-light">
                     <section>
                         <div id="banner2" class="banner spacer" style="background-image:url(<?php echo BASE_URL; ?>images/background-4.svg);">
-                            <div class="container">
-							acaz	
+                            <div class="container">	
                                 <div class="row justify-content-center">
                                     <div class="col-md-12 col-lg-12 aos-init aos-animate" data-aos="fade-up" data-aos-duration="1500">
                                        
@@ -148,10 +147,10 @@ window.addEventListener('load', function() {
  // $ should be available
 //  console.log(localStorage.token == undefined);
 if(localStorage.token == undefined){
-	window.location = '../login.html';
+	window.location = '../login.php';
 }
 else{
-
+	$("#login-logout").html("<a href='#' style='margin:0px' id='logout'>Logout</a>");
 	$.ajax({
 		url:'../config/request.php',
 		type:'POST',
@@ -168,8 +167,11 @@ else{
 		}
 	});
 }
-
+$("#logout").click(function(){
+	localStorage.clear();
+	window.location = '../login.php';
+})
 }, false);
 
 </script>
-<?php include("../footer.php");?>
+<?php include(ROOT_PATH."footer.php");?>

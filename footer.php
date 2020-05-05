@@ -79,7 +79,8 @@ require_once('config/config.php');
 <!-- Bootstrap popper Core JavaScript -->
 <script src="<?php echo BASE_URL; ?>assets/node_modules/popper/dist/popper.min.js"></script>
 <script src="<?php echo BASE_URL; ?>assets/node_modules/bootstrap/js/bootstrap.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.16/dist/js/bootstrap-select.min.js"></script>
+<script src="<?php echo BASE_URL; ?>js/jquery.redirect.js"></script>
 <!-- This is for the animation -->
 <script src="<?php echo BASE_URL; ?>assets/node_modules/aos/dist/aos.js"></script>
 <!--Custom JavaScript -->
