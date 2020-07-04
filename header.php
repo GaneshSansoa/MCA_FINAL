@@ -14,7 +14,7 @@ require_once('config/config.php');
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="images/favicon.png">
-    <title>Wrapkit - The awesome and beautiful ui kit</title>
+    <title>SetMyCitations</title>
     <!-- Bootstrap Core CSS -->
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
     <link href="<?php echo BASE_URL; ?>assets/node_modules/bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -65,7 +65,7 @@ require_once('config/config.php');
                     <div class="container">
                         <!-- Header 1 code -->
                         <nav class="navbar navbar-expand-lg h11-nav">
-                            <a class="navbar-brand" href="<?php echo BASE_URL;?>"><img src="../assets/images/logos/blue-logo-text.jpg" alt="wrapkit"></a>
+                            <a class="navbar-brand" href="<?php echo BASE_URL;?>"><img src="images/logo.svg" style="width:100%;height:50px;" alt="SetMyCitations"></a>
                             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header11" aria-expanded="false" aria-label="Toggle navigation"><span class="ti-menu"></span></button>
                             <div class="collapse navbar-collapse hover-dropdown flex-column" id="header11">
                                 <div class="ml-auto h11-topbar">
@@ -74,12 +74,17 @@ require_once('config/config.php');
                                         <li><a href="#"><i class="fa fa-twitter"></i></a></li>
                                         <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
                                         <li>
+
 											<div class="rounded-button" id="login-logout">
-														<a href="<?php echo BASE_URL;?>/login.php">Login</a> - OR - <a href="<?php echo BASE_URL;?>signup.php">Register</a>
+                                            <?php if(isset($_COOKIE['token'])):?>
+                                                <?php $_COOKIE['token'];?>
+                                                <a href='#' style='margin:0px' id='logout'>Logout</a>                                            
+                                            <?php else:?>
+												<a href="<?php echo BASE_URL;?>login.php">Login</a> - OR - <a href="<?php echo BASE_URL;?>signup.php">Register</a>
+                                            <?php endif;?>
 											</div>
 										</li>
                                     </ul>
-
                                 </div>
                                 <ul class="navbar-nav font-13 ml-auto">
                                     <li class="nav-item active"><a class="nav-link" href="<?php echo BASE_URL;?>"">Home</a></li>

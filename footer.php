@@ -7,15 +7,15 @@ require_once('config/config.php');
 <div class="row">
 <div class="col-lg-3 col-md-6 m-b-30">
     <h5 class="m-b-20">Address</h5>
-    <p>71 Amsteroum Avenue Cronish Night, NY 35098</p>
+    <p>H. No. 26, Beant Vihar, Ludhiana</p>
 </div>
 <div class="col-lg-3 col-md-6 m-b-30">
     <h5 class="m-b-20">Phone</h5>
-    <p>Reception :  +205 123 4567 <br/>Office :  +207 235 7890</p>
+    <p>Reception :  +91 7696643877 <br/>Office :  +91 7696643877</p>
 </div>
 <div class="col-lg-3 col-md-6 m-b-30">
     <h5 class="m-b-20">Email</h5>
-    <p>Office :  <a href="#" class="link">info@wrappixel.com</a> <br/>Site :  <a href="#" class="link">wrapkit@wrappixel.com</a></p>
+    <p>Office :  <a href="#" class="link">gsasnsoa16@gmail.com</a> <br/>Site :  <a href="#" class="link">gchaudhary1995@gmail.com</a></p>
 </div>
 <div class="col-lg-3 col-md-6">
     <h5 class="m-b-20">Social</h5>
@@ -31,19 +31,18 @@ require_once('config/config.php');
 <div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-expand-lg h1-nav">
-          <a class="navbar-brand" href="#"><img src="../assets/images/logos/green-logo.png" alt="wrapkit" width="50" /></a>
+          <a class="navbar-brand" href="#"><img src="../assets/images/logos/green-logo.png" alt="Set My Citations" width="50" /></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header1" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="ti-menu"></span>
           </button>
 
           <div class="collapse navbar-collapse" id="header1">
-              <span class="hidden-lg-down">All Rights Reserved by WrapPixel.</span>
+              <span class="hidden-lg-down">All Rights Reserved.</span>
               <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
               <li class="nav-item active"><a class="nav-link" href="#">Home</a></li>
               <li class="nav-item"><a class="nav-link" href="#">About Me</a></li>
               <li class="nav-item"><a class="nav-link" href="#">Work</a></li>
               <li class="nav-item"><a class="nav-link" href="#">Services</a></li>
-              <li class="nav-item"><a class="nav-link" href="#">Freebies</a></li>
 
             </ul>
           </div>
@@ -84,8 +83,11 @@ require_once('config/config.php');
 <!-- This is for the animation -->
 <script src="<?php echo BASE_URL; ?>assets/node_modules/aos/dist/aos.js"></script>
 <!--Custom JavaScript -->
-<script src="<?php echo BASE_URL; ?>js/custom.min.js"></script>
+<script src="<?php echo BASE_URL; ?>js/custom.js"></script>
+<script src="<?php echo BASE_URL; ?>js/rellax.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
 <script src="<?php echo BASE_URL; ?>js/bundle.js"></script>
+
 <!-- ============================================================== -->
 <!-- This page plugins -->
 <!-- ============================================================== -->

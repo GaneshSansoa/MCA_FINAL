@@ -1,7 +1,4 @@
 <?php 
-	// echo print_r($_POST);
-//	echo $_POST["username"];
-
 	include_once('config/connection.php');
 	include_once('config/insert.php');
 	$db = new DBConnect();
@@ -23,12 +20,7 @@
 			die;
 				}			
 	}
-
 		$insert = new Insert($conn);
 		echo $insert->insertSignup($_POST);
-	
-	// $db = new DBConnect();
-	// $db_conn = $db->getConnection();
-
 	
 ?>

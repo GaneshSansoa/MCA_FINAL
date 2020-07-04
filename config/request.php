@@ -8,6 +8,6 @@
     }
     else{
         echo json_encode(array('msg'=>$returned_data['msg']));
-    }
+    } 
 
 ?>

@@ -1,8 +1,8 @@
-<?php if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-   exit;
- }?>
+
 <?php //print_r($_POST);
-$data = json_decode($_POST['data'],true);
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $data = json_decode($_POST['data'],true);
+}
 
 // print_r($data);
 // echo count($data['authors']);
@@ -35,6 +35,7 @@ $data = json_decode($_POST['data'],true);
 											<div class="card-content">
                                                 <form class="needs-validation" novalidate="" method="post" action="cite-result.php" id="frm-submit" onsubmit="return false;">
                                                 <div class="form-row" id="contrib">
+                                                        <?php if(isset($data)):?>
                                                         <?php $count=0;?>
                                                         <?php foreach($data['creators'] as $author):
 
@@ -67,6 +68,31 @@ $data = json_decode($_POST['data'],true);
                                                         
                                                            <?php $count++;?>
                                                         <?php endforeach;?>
+                                                        <?php else:?>
+                                                            <?php $count=1;?>
+                                                            <div class="col-md-6 mb-3">    
+                                                            <div class="input-group"> 
+                                                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" name="given-0" required="" >
+                                                                    <div class="input-group-prepend">          
+                                                                        <span class="input-group-text" id="inputGroupPrepend">*</span>        
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                    Please enter first name.        
+                                                                    </div>
+                                                            </div>
+                                                        </div>    
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" name="family-0" required="">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text" id="inputGroupPrepend">*</span>
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please enter Last name.       
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <?php endif;?>
                                                     </div>
                                                     <div class="form-row col-12">
                                                             <a href="#" id="add_another"> Add Another Contributor +</a>
@@ -159,17 +185,7 @@ $data = json_decode($_POST['data'],true);
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required="">
-                                                        <label class="form-check-label" for="invalidCheck">
-                                                            Agree to terms and conditions
-                                                        </label>
-                                                        <div class="invalid-feedback">
-                                                            You must agree before submitting.
-                                                        </div>
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <button class="btn btn-primary" type="submit">Submit form</button>
                                                 </form>
 											</div>
@@ -195,7 +211,7 @@ $data = json_decode($_POST['data'],true);
                 </div>
  <script>
 window.addEventListener('load', function() {
-    var id = <?php echo $count;?>;
+    var id = <?php echo $count-1;?>;
     console.log(id);
 	var add_contri = (id) => {
 	
@@ -248,7 +264,8 @@ $("#frm-submit").on('submit',function(){
 				
 				if(id > 0){
                     // journal[0].author.unshift({});
-                    for (var im = 0; im < id; im++){
+                    
+                    for (var im = 0; im <= id; im++){
                         console.log(im);
                     if(im>0){
                         journal[0].author.push({});

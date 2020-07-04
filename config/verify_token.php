@@ -2,8 +2,9 @@
     require "../vendor/autoload.php";
     use \Firebase\JWT\JWT;
 
+    
+    //$jwt = $_POST["token"]; 
 
-    $jwt = $_POST["token"];   
     class Verify extends JWT{
         public $inp_token;
         public $key = "citation_project";
@@ -33,7 +34,6 @@
         }        
     }
 
-    $obj = new Verify();
-    $obj->verify_token($jwt);
+    
     // print_r($decoded);
 ?>

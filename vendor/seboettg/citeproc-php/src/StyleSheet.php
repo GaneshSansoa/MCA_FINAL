@@ -37,7 +37,16 @@ class StyleSheet
         $stylesPath = self::vendorPath()."/citation-style-language/styles-distribution/";
         return file_get_contents($stylesPath.$styleName.'.csl');
     }
+	public static function loadCustomStyleSheet($user_id,$styleName){
+        $stylesPath = $_SERVER["DOCUMENT_ROOT"] . "/my-project/vendor" ."/citation-style-language/styles-distribution/custom-styles/".$user_id."/". $styleName . '.csl';
+        echo $stylesPath;
+        $file = fopen($stylesPath, 'r');
+        $data = stream_get_contents($file);
+        fclose($file);
+        return $data;        
 
+		//return file_get_contents($stylesPath, $styleName.'.csl');
+	}
     /**
      * Loads xml formatted locales of given language key
      *

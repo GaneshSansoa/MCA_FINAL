@@ -146,3 +146,54 @@ a .material-icons {
 .h11-nav .h11-topbar ul li a{
     color:black !important;
 }
+h1,h2,h3,h4,h5,h6,h7{
+    text-transform: uppercase;
+    font-weight: 900;
+}
+#citation-result,#my-citation{
+    h6{
+        text-transform: capitalize;
+    }
+    h4{
+        line-height: 3rem;
+        display:inline-block;
+        &::after{
+            content:'';
+            width: 50%;
+            height:5px;
+            background-color: #007cff;
+            display: block;
+            margin-bottom:80px;
+        }
+    }
+}
+.cursor-pointer{
+    cursor:pointer;
+}
+#actions {
+    div{
+        padding-left:10px;
+        padding-right:10px;
+        &:hover{
+            i,p{
+                color:#007cff;
+            }   
+        }
+    }
+}
+.h11-nav .navbar-nav .nav-item .nav-link{
+	padding: 6px 0px;
+}
+.h11-nav .h11-topbar ul{
+	padding:5px 0px;
+}
+.rounded-button{
+	padding-top:8px;
+	padding-bottom:8px;
+}
+.invalid-feedback{
+	display: none;
+}
+.csl-entry{
+	margin:10px 0px;
+}

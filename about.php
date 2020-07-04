@@ -19,7 +19,7 @@
                                 <h4>About Me</h4>
 								<div class="row justify-content-center">
 									<div class="col-md-7">
-                                        <div class="about-left">
+                                        <div class="about-left rellax" data-rellax-speed="2">
                                             <h1>Ganesh Kumar.</h1>                                    
                                             <p>Hi, my name is Ganesh Kumar. I am a beginner Web Designer & Developer.</p>
                                             <ul>
@@ -36,7 +36,7 @@
                                         </div>
 									</div>
                                     <div class="col-md-5">
-                                        <div class="about-right mx-auto">
+                                        <div class="about-right mx-auto rellax" data-rellax-speed="-1">
                                             <div class="overlay">
                                             </div>
                                             <img src="<?php echo BASE_URL;?>assets/images/testimonial/1.jpg" alt="me">

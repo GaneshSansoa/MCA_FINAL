@@ -1,0 +1,1 @@
+console.error("Error: Cannot find module 'C:\\xampp\\htdocs\\my-project\\test.js' from 'C:\\xampp\\htdocs\\my-project'");

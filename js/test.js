@@ -194,18 +194,18 @@ $("#book").on('keyup',function(){
 //		emailPrev = $("#email").prev();
 	//	console.log(emailPrev.children());
 	})
-	$("#username").keyup(function(){
-		ValidateUserName($("#username"),"Empty Username");
-	});
-	$("#email").keyup(function(){
-		ValidateEmail($("#email"),"Invalid Email");
-	})
-	$("#password").keyup(function(){
-		ValidatePassword($("#password"),"At least 6 characters, one number, one lowercase and one uppercase letter");
-	});
-	$("#re-password").keyup(function(){
-		VaildateRePassword($("#password"),$("#re-password"),"Password Doesnt Matched");
-	});
+	// $("#username").keyup(function(){
+	// 	ValidateUserName($("#username"),"Empty Username");
+	// });
+	// $("#email").keyup(function(){
+	// 	ValidateEmail($("#email"),"Invalid Email");
+	// })
+	// $("#password").keyup(function(){
+	// 	ValidatePassword($("#password"),"At least 6 characters, one number, one lowercase and one uppercase letter");
+	// });
+	// $("#re-password").keyup(function(){
+	// 	VaildateRePassword($("#password"),$("#re-password"),"Password Doesnt Matched");
+	// });
 	
 	
 	
@@ -298,6 +298,31 @@ $("#book").on('keyup',function(){
 		
 		
 	}
+	function ValidateOldPassword(PasswordID,CustomMsg){
+		var oldPassword = PasswordID.val();
+		var returnVal;
+		$.ajax({
+			async: false,
+			url:'../dashboard/user_actions.php',
+			type:'POST',
+			dataType:'json',
+			data:{
+				type:'old-password-check',
+				oldPassword:oldPassword,
+			},
+			success:function(res){
+				if(res.status == "success"){
+					FormSuccessStyle(PasswordID);
+					returnVal = true;
+				}
+				else{
+					FormErrorStyle(PasswordID,CustomMsg);
+					returnVal = false;
+				}
+			}
+		});
+		return returnVal;
+	}
 	function VaildateRePassword(PasswordID,RePasswordID,CustomMsg){
 		if(RePasswordID.val() == ""){
 			FormErrorStyle(RePasswordID,"Empty Field");
@@ -361,10 +386,74 @@ $("#login_form").on('submit',function(){
 				$("#login_form").find('input').prev().children().addClass("form-text-success");
 				$("#login_form").find('input').removeClass("form-error");
 				$("#login_form").find('input').addClass("form-success");
-				localStorage.token = res.token;
+				//localStorage.token = res.token;
 				// console.log(localStorage.token);
 				window.location = 'dashboard';
 			}
 		}
 	});
 });
+//Change Password Form
+$("#change-password-form").submit(function(){
+	var oldPass = ValidateOldPassword($("#old-password"),"Wrong Password");
+	var checkPass = ValidatePassword($("#new-password"),"At least 6 characters, one number, one lowercase and one uppercase letter");
+	var checkRePass = VaildateRePassword($("#new-password"),$("#renew-password"),"Password Doesnt Matched");
+	console.log(oldPass);
+	console.log(checkPass);
+	console.log(checkRePass);
+	if(oldPass == true && checkPass == true && checkRePass == true){
+		var newPassword = $("#new-password").val();
+		$.ajax({
+			url:'../dashboard/user_actions.php',
+			type:'POST',
+			dataType:'json',
+			data:{
+				type:'change-password',
+				newPassword:newPassword,
+			},
+			success:function(res){
+				if(res.status == "success"){
+			
+				}
+				else{
+					
+				}
+			}
+		});
+	}
+})
+
+var rellax = new Rellax('.rellax');
+
+$(document).ready(function(){
+	var a = 0;
+	$("#logout").click(function(){
+		$.ajax({
+			url: '/my-project/logout.php',
+			type:'POST',
+			dataType:'json',
+			success:function(res){
+				alert(res.status);
+				if(res.status =="success"){
+					
+					window.location = '/my-project/';
+				}
+			}
+		});
+	});
+	var clipboard = new ClipboardJS('#copy');
+
+    clipboard.on('success', function(e) {
+			$("#copy-alert").html("copied");
+		setInterval(function(){
+			$("#copy-alert").html("copy");			
+		},3000);
+		
+		
+    });
+
+    clipboard.on('error', function(e) {
+		$("#copy-alert").html("Error Copying");
+    });
+});
+

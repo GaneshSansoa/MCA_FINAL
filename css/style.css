@@ -694,9 +694,9 @@ Background Colors
   background-color: #56adf2; }
 
 .bg-success-gradiant {
-  background: #2cdd9b;
-  background: -webkit-linear-gradient(legacy-direction(to right), #2cdd9b 0%, #1dc8cd 100%);
-  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cd 100%); }
+  background: #2cdd9b !important;
+  background: -webkit-linear-gradient(legacy-direction(to right), #2cdd9b 0%, #1dc8cd 100%) !important;
+  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cd 100%) !important;  }
 
 .bg-info-gradiant {
   background: #188ef4;
@@ -2767,11 +2767,9 @@ File: scss
     cursor: pointer;
     margin: 0; }
 
-.h11-nav .h11-topbar ul li a {
-  color: white !important; }
 
-.animated .h11-nav .h11-topbar ul li a {
-  color: #ff4d7e !important; }
+
+
 
 .h11-nav .navbar-nav .nav-item .nav-link {
   color: white !important;
@@ -2801,7 +2799,7 @@ File: scss
   border-top: 1px solid rgba(120, 130, 140, 0.13); }
 
 .animated .h11-nav .navbar-nav .nav-item .nav-link {
-  color: #8d97ad !important; }
+  color: black !important; }
 
 @media (max-width: 370px) {
   #banner2 .left,

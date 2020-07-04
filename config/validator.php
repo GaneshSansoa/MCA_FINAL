@@ -1,3 +1,4 @@
+
 <?php
 //include_once('connection.php');
 class Validator{
@@ -64,4 +65,26 @@ class Validator{
 //            echo print_r($val);
         }
     }
+	public function bibliographyValidator($id, $bibName){
+				$stmt = $this->conn->prepare("SELECT group_name FROM citation_groups where user_id=".$id."");
+				$stmt->execute();
+				$result = $stmt->fetchAll();
+				foreach($result as $r){
+					if($r['group_name'] == $bibName){
+						return array('status'=>'error','message'=>'Name Already Exists');
+						die;
+					}
+				}
+				$stmt = $this->conn->prepare("SELECT group_id FROM citation_groups ORDER BY group_id DESC LIMIT 1");
+				$stmt->execute();
+				$result = $stmt->fetchAll();
+				$g_id = 0;
+				foreach($result as $r){
+						$g_id = $r['group_id'];
+				}
+				$g_id+=1;
+				return array('status'=>'success','group_id'=>$g_id);  
+					
+				  
+	}
 }

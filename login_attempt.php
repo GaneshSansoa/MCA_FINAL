@@ -13,7 +13,7 @@ $email = $_POST["email"];
 $password = $_POST["password"];
 $emailValid = $validator->emailValidator($email);
 if($emailValid == false){
-    echo "not exists";
+    echo json_encode(array("status"=>"error","type"=>"Incorrect Username/Password"));
 }
  else{
     $sql = "select id,username,email,password,verified from register where email = '".$email."' LIMIT 1";
@@ -38,8 +38,9 @@ if($emailValid == false){
                                 "email" => $r["email"],
                                 "username"=> $r["username"]
                             ),
-                        );           
-                        $jwt = JWT::encode($payload, $key);
+                        );            
+                        $jwt = JWT::encode($payload, $key);  
+						setcookie("token", $jwt, time()+3600, "/");
                         echo json_encode(array("status"=>"success","token"=>$jwt));  
                     }
                     else{

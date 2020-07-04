@@ -1,8 +1,13 @@
-<?php if ($_SERVER['REQUEST_METHOD'] != 'POST') {
-   exit;
- }?>
+<?php 
+// if ($_SERVER['REQUEST_METHOD'] != 'POST') {
+//    exit;
+//  }
+ ?>
 <?php //print_r($_POST);
-$data = json_decode($_POST['data'],true);
+if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    $data = json_decode($_POST['data'],true);
+}
+
 
 // print_r($data);
 // echo count($data['authors']);
@@ -35,7 +40,9 @@ $data = json_decode($_POST['data'],true);
 											<div class="card-content">
                                                 <form class="needs-validation" novalidate="" method="post" action="cite-result.php" id="frm-submit" onsubmit="return false;">
                                                     <div class="form-row" id="contrib">
-                                                        <?php $count=0;?>
+                                                        
+                                                        <?php if(isset($data)):?>
+                                                            <?php $count=0;?>
                                                         <?php foreach($data['authors'] as $author):
 
                                                             $names = split_name($author);
@@ -43,7 +50,7 @@ $data = json_decode($_POST['data'],true);
                                                             ?>
                                                             <div class="col-md-6 mb-3">    
                                                             <div class="input-group"> 
-                                                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" name="given-<?php echo $count;?>" required="" value="<?php echo isset($names['first_name']) ? $names['first_name'] : 'dad';?>">
+                                                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" name="given-<?php echo $count;?>" required="" value="<?php echo isset($names['first_name']) ? $names['first_name'] : '';?>">
                                                                     <div class="input-group-prepend">          
                                                                         <span class="input-group-text" id="inputGroupPrepend">*</span>        
                                                                     </div>
@@ -54,7 +61,7 @@ $data = json_decode($_POST['data'],true);
                                                         </div>    
                                                         <div class="col-md-6 mb-3">
                                                             <div class="input-group">
-                                                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" name="family-<?php echo $count;?>" required="" value="<?php echo isset($names['last_name'])? $names['last_name'] : 'dada';?>">
+                                                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" name="family-<?php echo $count;?>" required="" value="<?php echo isset($names['last_name'])? $names['last_name'] : '';?>">
                                                                 <div class="input-group-prepend">
                                                                     <span class="input-group-text" id="inputGroupPrepend">*</span>
                                                                 </div>
@@ -67,6 +74,32 @@ $data = json_decode($_POST['data'],true);
                                                         
                                                            <?php $count++;?>
                                                         <?php endforeach;?>
+                                                        <?php else:?>
+                                                            <?php $count=1;?>
+                                                            <div class="col-md-6 mb-3">    
+                                                            <div class="input-group"> 
+                                                                <input type="text" class="form-control" id="validationCustom01" placeholder="First name" name="given-0" required="" >
+                                                                    <div class="input-group-prepend">          
+                                                                        <span class="input-group-text" id="inputGroupPrepend">*</span>        
+                                                                    </div>
+                                                                    <div class="invalid-feedback">
+                                                                    Please enter first name.        
+                                                                    </div>
+                                                            </div>
+                                                        </div>    
+                                                        <div class="col-md-6 mb-3">
+                                                            <div class="input-group">
+                                                                <input type="text" class="form-control" id="validationCustom02" placeholder="Last name" name="family-0" required="">
+                                                                <div class="input-group-prepend">
+                                                                    <span class="input-group-text" id="inputGroupPrepend">*</span>
+                                                                </div>
+                                                                <div class="invalid-feedback">
+                                                                    Please enter Last name.       
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <?php endif;?>
                                                     </div>
                                                     <div class="form-row col-12">
                                                             <a href="#" id="add_another"> Add Another Contributor +</a>
@@ -158,17 +191,7 @@ $data = json_decode($_POST['data'],true);
                                                             </select>
                                                         </div>
                                                     </div>
-                                                    <div class="form-group">
-                                                        <div class="form-check">
-                                                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required="">
-                                                        <label class="form-check-label" for="invalidCheck">
-                                                            Agree to terms and conditions
-                                                        </label>
-                                                        <div class="invalid-feedback">
-                                                            You must agree before submitting.
-                                                        </div>
-                                                        </div>
-                                                    </div>
+                                                   
                                                     <button class="btn btn-primary" type="submit">Submit form</button>
                                                 </form>
 											</div>
@@ -193,6 +216,7 @@ $data = json_decode($_POST['data'],true);
 					
                 </div>
  <script>
+
 window.addEventListener('load', function() {
     var id = <?php echo $count-1;?>;
 	var add_contri = (id) => {
@@ -243,7 +267,7 @@ $("#frm-submit").on('submit',function(){
 				book[0].title = newarr["title"];
 				book[0].author = [];
 				book[0].author.push({});
-				
+				console.log(id);
 				if(id > 0){
 				// book[0].author.unshift({});
 				for (var im = 0; im <= id; im++){
@@ -263,7 +287,7 @@ $("#frm-submit").on('submit',function(){
 				else{
 				book[0].author[id]["given"] = capitalize(newarr["given-"+id]);
 				book[0].author[id]["family"] = capitalize(newarr["family-"+id]);
-//				console.log("yooo");
+				console.log("yooo");
 				}
 				book[0].issued = {};
 
@@ -278,7 +302,33 @@ $("#frm-submit").on('submit',function(){
 				book = JSON.stringify(book,null,4);
 				console.log(book);
                 var formatType = $(".selectpicker").val();
-    			$.redirect('cite-result.php', {'formatType': formatType, 'data': book});
+               $.redirect('cite-result.php', {'formatType': formatType, 'data': book});
+                // $.ajax({
+                //     url:'cite-result.php',
+                //     type:'post',
+                //     dataType:'json',
+                //     data:{
+                //         'formatType':formatType,
+                //         'data':book,
+                //     },
+                //     success:function(res){
+                //         // localStorage.clear();
+                //         console.log(res.bibliography);
+                //         if(!localStorage.counter && !localStorage.citations){
+                //             localStorage.counter = 0;
+                //             localStorage.citations = [];
+                //         }
+
+                //         else{
+                //             localStorage.counter++;
+                //             localStorage.citations[localStorage.counter] = res.bibliography;
+                //             console.log(localStorage.citations[localStorage.counter]);
+                //         }
+
+
+                //     }
+
+                // })
 
 });
 

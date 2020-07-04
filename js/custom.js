@@ -45,16 +45,31 @@ $(function () {
     // ============================================================== 
     var wind = $(window);
     wind.on("load", function() {
-        var bodyScroll = wind.scrollTop(),
-            navbar = $(".topbar");
-        if (bodyScroll > 100) {
+        var bodyScroll = wind.scrollTop();
+        // console.log(bodyScroll);
+        navbar = $(".topbar");
+        if (bodyScroll > 50) {
             navbar.addClass("fixed-header animated slideInDown")
         } else {
             navbar.removeClass("fixed-header animated slideInDown")
         }
     });
+    $(document).ready(function(){
+        var nav = $('.topbar');
+        var pos = nav.position();
+        if(pos >= 50){
+            $('.topbar').addClass('fixed-header animated slideInDown');
+            $('.bt-top').addClass('visible');
+        }
+        else{
+            $('.topbar').removeClass('fixed-header animated slideInDown');
+            $('.bt-top').removeClass('visible');
+        }
+    })
+
     $(window).scroll(function () {
-        if ($(window).scrollTop() >= 100) {
+
+        if ($(window).scrollTop() >= 50) {
             $('.topbar').addClass('fixed-header animated slideInDown');
             $('.bt-top').addClass('visible');
         } else {
@@ -62,6 +77,7 @@ $(function () {
             $('.bt-top').removeClass('visible');
         }
     });
+
     // ============================================================== 
     // Animation initialized
     // ============================================================== 
