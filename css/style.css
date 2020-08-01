@@ -2866,7 +2866,10 @@ File: scss
     padding: 2px 10px;
     width: 100%; }
     .results li:hover, .article-results li:hover {
-      background: blue; }
+      cursor: pointer;
+      background: #07d79c;
+      border-color: #07d79c;
+   }
 
 /**********************Material COmponents***********************************/
 * {

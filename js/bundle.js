@@ -8587,39 +8587,102 @@ function extend() {
 var books = require('google-books-search');
 var resIndex;
 var res = {};
+var articleRes = {};
 $("#book").on('keyup',function(){
-	var keyword = $("#book").val();
-	console.log(keyword);
-	var options = {
-		limit: 5,
-		type: 'books',
-		order: 'relevance',
-		lang: 'en'
-	};
-	books.search(keyword, options, function(error, results) {
-    if ( ! error ) {
-		res = results;
-		$(".results").css("display","block");
-		html = '';
-		for(var i = 0; i <results.length; i++){
-			html += '<li data-result='+i+'>'+results[i]['title']+'</li>';
-		}
-		$(".results ul").html(html);
-		$("#books").html('<option value="'+results[0]['title']+'">');
-        console.log(results.length);
-		$(".results ul li").on('click',function(){
-			resIndex = ($(this).data("result"));
-			console.log(resIndex);
-			$("#book").val(results[resIndex]['title']);
-			$(".results").css("display","none");
+	//console.log(event.keyCode);
+	//console.log("repeating");
+	switch(event.keyCode){
+		case 13:
+			break;
+		case 40:
+		break;
+		case 38:
+		break;
+		case 37:
+		break;
+		case 39:
+		break;
+		default:
+			var keyword = $("#book").val();
+			console.log(keyword);
+			var options = {
+				limit: 5,
+				type: 'books',
+				order: 'relevance',
+				lang: 'en'
+			};
+			books.search(keyword, options, function(error, results) {
+			if ( ! error ) {
+				res = results;
+				$(".results").css("display","block");
+				html = '';
+				for(var i = 0; i <results.length; i++){
+					if(i === 0){
+						html += '<li class="list-group-item active" data-result='+i+'>'+results[i]['title']+'</li>';				
+					}
+					else{
+						html += '<li class="list-group-item" data-result='+i+'>'+results[i]['title']+'</li>';
+					}
 		
-		});
-    } else {
-//		$(".results ul").html('<li>'+error+'</li>');
-		$(".results").css("display","none");
-    }
-})
+				}
+				$(".results ul").html(html);
+				$("#books").html('<option value="'+results[0]['title']+'">');
+				// console.log(results.length);
+					
+				
+				$(".results ul li").on('click',function(){
+					resIndex = ($(this).data("result"));
+					console.log(resIndex);
+					$("#book").val(results[resIndex]['title']);
+					$(".results").css("display","none");
+				
+				});
+				
+			} else {
+		//		$(".results ul").html('<li>'+error+'</li>');
+				$(".results").css("display","none");
+			}
+		})
+		break;
+	}
+	
 });
+			const firstIndex = $(".looping_element").find('.list-group-item').first().index();
+				const lastIndex = $(".looping_element").find('.list-group-item').last().index();
+				console.log(firstIndex);
+				console.log(lastIndex);	
+				
+				$("#book").on('keydown', function(e){
+					// console.log("key down");
+					var index = $(".looping_element").find('.active').index();
+					
+					console.log(index);
+					console.log("keydown during focus");
+					switch(e.keyCode)
+					{
+						
+						case 40:
+							index = (index == lastIndex ? 0 : index + 1);
+						console.log(index);
+						break;
+						case 38:
+							index = (index == firstIndex ? lastIndex : index - 1);
+						console.log(index);
+						break;
+						case 13:
+							console.log(index);
+							resIndex = ($(".looping_element").find('.active').data("result"));
+								console.log(resIndex);
+								$("#book").val(res[resIndex]['title']);
+								$(".results").css("display","none");
+						break;
+					}
+					$(".looping_element").find('.active').removeClass('active');
+					$(".looping_element").find('.list-group-item:eq( '+ index +' )').addClass('active');
+					
+
+				});
+
 	$("#sb").on('click',function(){
 		console.log(res[resIndex]);
 		// function redirectPost(url, data) {
@@ -8672,18 +8735,30 @@ $("#book").on('keyup',function(){
 //		alert(artSearchType);
 	});
 	$("#article").on('keyup',function(){
+		switch(event.keyCode){
+			case 13:
+				break;
+			case 40:
+			break;
+			case 38:
+			break;
+			case 37:
+			break;
+			case 39:
+			break;
+			default:
 		var keyword = $("#article").val();
 		//alert(artSearchType);
 		var flickerAPI;		
 		if(artSearchType == "keyword"){
 			
-			flickerAPI = "http://api.springernature.com/meta/v2/json?q=keyword:"+keyword+"&api_key=e741be7fcb7d54b75ad4b3e775f3f39c";
+			flickerAPI = "http://api.springernature.com/meta/v2/json?q=keyword:"+keyword+"&api_key=e741be7fcb7d54b75ad4b3e775f3f39c&p=5";
 		}
 		else{
 			var el = document.createElement('a');
 			el.href = keyword;
 			//Extracting DOI from Doi.org URL
-			flickerAPI = "http://api.springernature.com/meta/v2/json?q=doi:"+el.pathname.slice(1)+"&api_key=e741be7fcb7d54b75ad4b3e775f3f39c";
+			flickerAPI = "http://api.springernature.com/meta/v2/json?q=doi:"+el.pathname.slice(1)+"&api_key=e741be7fcb7d54b75ad4b3e775f3f39c&p=5";
 		}
 
 		 //$.support.cors = true;
@@ -8706,7 +8781,13 @@ $("#book").on('keyup',function(){
 					
 							html = '';
 							for(var i = 0; i <results['records'].length; i++){
-								html += '<li data-result='+i+'>'+results['records'][i]['title']+'</li>';
+								if(i == 0){
+									html += '<li class="list-group-item active" data-result='+i+'>'+results['records'][i]['title']+'</li>';
+								}
+								else{
+									html += '<li class="list-group-item" data-result='+i+'>'+results['records'][i]['title']+'</li>';
+
+								}
 							}
 							$(".article-results ul").html(html);
 	//						$("#books").html('<option value="'+results[0]['title']+'">');
@@ -8726,8 +8807,44 @@ $("#book").on('keyup',function(){
 
 			  }
 		  })
+		  break;
+		}
 		
 	});
+				const articleFirstIndex = $(".article_looping_element").find('.list-group-item').first().index();
+				const articleLastIndex = $(".article_looping_element").find('.list-group-item').last().index();
+				
+				
+				$("#article").on('keydown', function(e){
+					// console.log("key down");
+					var index = $(".article_looping_element").find('.active').index();
+					
+					console.log(index);
+					console.log("keydown during focus");
+					switch(e.keyCode)
+					{
+						
+						case 40:
+							index = (index == articleLastIndex ? 0 : index + 1);
+						console.log(index);
+						break;
+						case 38:
+							index = (index == articleFirstIndex ? articleLastIndex : index - 1);
+						console.log(index);
+						break;
+						case 13:
+							console.log(index);
+							artIndex = ($(".article_looping_element").find('.active').data("result"));
+								console.log(artRes);
+								$("#article").val(artRes[artIndex]['title']);
+								$(".article-results").css("display","none");
+						break;
+					}
+					$(".article_looping_element").find('.active').removeClass('active');
+					$(".article_looping_element").find('.list-group-item:eq( '+ index +' )').addClass('active');
+					
+
+				});
 	$("#sb-article").on('click',function(){
 		// var datax = artRes[artIndex];
 		console.log(artRes [artIndex]);

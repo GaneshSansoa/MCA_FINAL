@@ -3,10 +3,16 @@
 <?php
 include_once('config/config.php');
 include_once(ROOT_PATH.'header.php');
-
 include "vendor/autoload.php";
 use Seboettg\CiteProc\StyleSheet;
 use Seboettg\CiteProc\CiteProc;
+use \Firebase\JWT\JWT;
+$key = "citation_project";
+if(isset($_COOKIE["token"])){
+	$token = $_COOKIE["token"];
+	$tokenData = JWT::decode($token, $key, array('HS256'));
+}
+
 
 $get_data = $_POST["data"];
 $new_data = preg_replace('/\s\s+/', '', $get_data);
@@ -95,54 +101,116 @@ $cssStyles = $citeProc->renderCssStyles();
 		<div class="form-group">
 			<label for="new-bibliograrphy">Create New Bibliography</label>
 			<input type="text" id="new-bibliograrphy" name="new-bibliograrphy" class="form-control">
-				<div class="validation-msg">
-																					  
-				</div>
+			<div class="validation-msg">
+				
 			</div>
-			<div class="form-group">
-																			<label for="">Select Style</label>
-																				<select class="form-control selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
-																						<?php
-																						$directory = 'vendor/citation-style-language/styles-distribution';
+			
+		</div>
+		<!-- <div class="form-group">
+			<label for="style-type" class="d-block">Select Style Type</label>
+			<input type="radio" class="style-type" name="style-type" value="pre-defined"> Pre-Defined Styles
+			<input type="radio" class="style-type" name="style-type" value="custom-style"> Custom Styles
+		</div> -->
+		<div class="form-check form-check-inline">
+		<input class="form-check-input" type="radio" name="style-type" id="inlineRadio1" value="pre-defined" checked>
+		<label class="form-check-label" for="inlineRadio1">Pre Defined Styles</label>
+		</div>
+		<div class="form-check form-check-inline">
+		<input class="form-check-input" type="radio" name="style-type" id="inlineRadio2" value="custom-style">
+		<label class="form-check-label" for="inlineRadio2">Custom Styles</label>
+		</div>
+		<div id="pre-defined" class="form-group">
+		<label for="">Select In-Built Style</label>
+			<select class="form-control pre-defined selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
+					<?php
+					$directory = 'vendor/citation-style-language/styles-distribution';
 
-																							// Will exclude everything under these directories
-																							$exclude = array('.git', 'dependent');
-																							$filter = function ($file, $key, $iterator) use ($exclude) {
-																								if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
-																									return true;
-																								}
-																								return $file->isFile();
-																							};
+						// Will exclude everything under these directories
+						$exclude = array('.git', 'dependent');
+						$filter = function ($file, $key, $iterator) use ($exclude) {
+							if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
+								return true;
+							}
+							return $file->isFile();
+						};
 
-																							$innerIterator = new RecursiveDirectoryIterator(
-																								$directory,
-																								RecursiveDirectoryIterator::SKIP_DOTS
-																							);
-																							$iterator = new RecursiveIteratorIterator(
-																								new RecursiveCallbackFilterIterator($innerIterator, $filter)
-																							);
+						$innerIterator = new RecursiveDirectoryIterator(
+							$directory,
+							RecursiveDirectoryIterator::SKIP_DOTS
+						);
+						$iterator = new RecursiveIteratorIterator(
+							new RecursiveCallbackFilterIterator($innerIterator, $filter)
+						);
 
-																							foreach ($iterator as $pathname => $fileInfo) {
-																								// do your insertion here
-																								$file = $fileInfo->getFilename();
-																								$without_extension = substr($file, 0, strrpos($file, "."));
-																								$string = str_replace('-', ' ', $without_extension);
-																								$formatted = ucwords($string);
-																								$words = explode(" ", $formatted);
-																									$acronym = "";
+						foreach ($iterator as $pathname => $fileInfo) {
+							// do your insertion here
+							$file = $fileInfo->getFilename();
+							$without_extension = substr($file, 0, strrpos($file, "."));
+							$string = str_replace('-', ' ', $without_extension);
+							$formatted = ucwords($string);
+							$words = explode(" ", $formatted);
+								$acronym = "";
 
-																									foreach ($words as $w) {
-																									$acronym .= $w[0];
-																									}
-																								echo "<option value=".$without_extension." data-tokens=".$acronym.">" . ucwords($string) . "</option>";
-																							}	
-																							?>
-																						</select>
-																						<div class="validation-msg-style">
-																				  
-																						</div>
-																			</div>
-			<button type="submit" class="btn btn-success">Create</button>
+								foreach ($words as $w) {
+								$acronym .= $w[0];
+								}
+							echo "<option value=".$without_extension." data-tokens=".$acronym.">" . ucwords($string) . "</option>";
+						}	
+						?>
+					</select>
+				</div>
+				<div class="form-group d-none" id="custom-style">
+					<?php 
+					$decoded_tokenData = (array) $tokenData;
+					$decode_data = (array) $decoded_tokenData["data"];
+					$user_id = $decode_data["id"];
+
+					?>
+					<label for="">Select Custom Style</label>
+						<select  class="form-control custom-style selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
+							<?php
+								$directory = 'vendor/citation-style-language/styles-distribution/custom-styles/'. $user_id;
+
+								// Will exclude everything under these directories
+								$exclude = array('.git', 'dependent');
+								$filter = function ($file, $key, $iterator) use ($exclude) {
+									if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
+										return true;
+									}
+									return $file->isFile();
+								};
+
+								$innerIterator = new RecursiveDirectoryIterator(
+									$directory,
+									RecursiveDirectoryIterator::SKIP_DOTS
+								);
+								$iterator = new RecursiveIteratorIterator(
+									new RecursiveCallbackFilterIterator($innerIterator, $filter)
+								);
+
+								foreach ($iterator as $pathname => $fileInfo) {
+									// do your insertion here
+									$file = $fileInfo->getFilename();
+									$without_extension = substr($file, 0, strrpos($file, "."));
+									$string = str_replace('-', ' ', $without_extension);
+									$formatted = ucwords($string);
+									$words = explode(" ", $formatted);
+										$acronym = "";
+
+										foreach ($words as $w) {
+										$acronym .= $w[0];
+										}
+									echo "<option value=".$without_extension." data-tokens=".$acronym.">" . ucwords($string) . "</option>";
+								}	
+							?>
+						</select>
+					<div class="validation-msg-style">
+				
+					</div>
+		</div>
+		<div class="form-group">
+			<button type="submit" class="create-bib btn btn-success">Create</button>
+		</div>
 	</form>
 		<div class="mt-5 bib-list">
 		<label for="bib-list">Select Bibliography</label>
@@ -163,6 +231,8 @@ $cssStyles = $citeProc->renderCssStyles();
 <script>
 window.addEventListener('load', function() {
 	$(document).ready(function(){
+		$(".pre-defined").selectpicker();
+			$(".custom-style").selectpicker();
 		$.ajax({
 		url:'dashboard/user_actions.php',
 		type:'GET',
@@ -176,10 +246,10 @@ window.addEventListener('load', function() {
 //			console.log(res);
 			$.each(res,function(i){
 				for(var j in res[i]){
-					html+="<option value='"+res[i][j]+"'>"+j+"</option>"
+					html+="<option value='"+res[i][j].group_id+"'>"+res[i][j].group_name+"</option>"
 
 	//				console.log(res[i][j]);
-		//			console.log(j);
+					console.log(j);
 				}
 
 				
@@ -187,9 +257,19 @@ window.addEventListener('load', function() {
 			$("#bib-list").html(html);
 		}
 	});
-	$("#create-bib-submit").submit(function(){
+	$(".create-bib").click(function(){
 		var bibName = $("#new-bibliograrphy").val();
-		var bibStyle = $(".selectpicker").val();
+		var bibStyle = "";
+		//console.log(bibStyle);
+		var bibType = $("input[name=style-type]:checked").val();
+		if(bibType == "pre-defined"){
+			console.log($(".selectpicker.pre-defined").val());
+			bibStyle = $(".selectpicker.pre-defined").val();
+		}
+		if(bibType == "custom-style"){
+			console.log($(".selectpicker.custom-style").val());
+			bibStyle = $(".selectpicker.custom-style").val();
+		}
 		$.ajax({
 			url:'dashboard/user_actions.php',
 			type:'POST',
@@ -198,6 +278,7 @@ window.addEventListener('load', function() {
 				type:'create-bib',
 				bibName: bibName,
 				bibStyle:bibStyle,
+				bibType: bibType,
 			},
 			success:function(res){
 				var html = '';
@@ -229,6 +310,7 @@ window.addEventListener('load', function() {
 		$("#save-bibliography").click(function(){
 			var bibValue = $("#bib-list").val();
 			var bibStyle = '<?php echo isset($formatType) ? $formatType : '';?>';
+			
 			if(bibValue == 0){
 				$('.bib-list .validation-msg').removeClass('valid-feedback');
 				$('.bib-list .validation-msg').addClass('invalid-feedback');
@@ -271,6 +353,53 @@ window.addEventListener('load', function() {
 			}
 		});
 	});
+	// Add the following code if you want the name of the file appear on select
+$(".custom-file-input").on("change", function() {
+        var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+        });
+		$("#upload-style-submit").submit(function(){
+            var ext = $('input[type=file]').val().split('.').pop().toLowerCase();
+
+            if($.inArray(ext, ['csl']) == -1) {
+                alert('invalid extension!');
+                }
+            else{
+//				var formdata =new FormData($("#upload-style-submit")[0]);
+				var fd = new FormData(); 
+                var files = $('.custom-file-input')[0].files[0]; 
+				fd.append('file', files); 
+				fd.append('type','upload-style');
+				$.ajax({
+					url:'user_actions.php',
+					type:'POST',
+					dataType:'json',
+					data:fd,
+					processData: false,
+				    contentType: false,
+					success:function(){
+
+					}
+				})	;
+			}
+});
+var showChecked = $("input[name=style-type]:checked").val();
+console.log(showChecked);
+$("#" + showChecked).removeClass("d-none");
+
+
+$("input[name=style-type]").on("change", function(){
+	var showChecked = $("input[name=style-type]:checked").val();
+	if(showChecked == "custom-style"){
+		$("#custom-style").removeClass("d-none");
+		$("#pre-defined").addClass("d-none");
+	}
+	else{
+		$("#pre-defined").removeClass("d-none");
+		$("#custom-style").addClass("d-none");
+	}
+//	alert($("input[name=style-type]:checked").val());
+})
 },false);
 </script>
 

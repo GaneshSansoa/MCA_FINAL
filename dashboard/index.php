@@ -142,7 +142,7 @@ include(ROOT_PATH ."header.php");?>
 																	<div class="tab-pane" id="schedule-2">
 																		
 																		
-																		<form action="" method="POST" onsubmit="return false;"  id="create-bib-submit">
+																		<form action="" method="POST" onsubmit="return false;"  id="create-my-submit">
 																			<div class="form-group">
 																				<label for="new-bibliograrphy">Create New Bibliography</label>
 																				<input type="text" id="new-bibliograrphy" name="new-bibliograrphy" class="form-control">
@@ -164,9 +164,9 @@ include(ROOT_PATH ."header.php");?>
 																			<input class="form-check-input" type="radio" name="style-type" id="inlineRadio2" value="custom-style">
 																			<label class="form-check-label" for="inlineRadio2">Custom Styles</label>
 																			</div>
-																			<div id="pre-defined" class="form-group d-none">
+																			<div id="pre-defined" class="form-group">
 																			<label for="">Select In-Built Style</label>
-																				<select class="form-control pre-defined selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
+																				<select class="form-control selectpicker pre-defined" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
 																						<?php
 																						$directory = '../vendor/citation-style-language/styles-distribution';
 
@@ -209,7 +209,7 @@ include(ROOT_PATH ."header.php");?>
 																							$user_id = $status["data"]["id"];
 																						?>
 																						<label for="">Select Custom Style</label>
-																							<select  class="form-control custom-style selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
+																							<select  class="form-control selectpicker custom-style" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
 																								<?php
 																									$directory = '../vendor/citation-style-language/styles-distribution/custom-styles/'. $user_id;
 
@@ -251,7 +251,7 @@ include(ROOT_PATH ."header.php");?>
 																						</div>
 																			</div>
 																			<div class="form-group">
-																				<button type="submit" class="create-bib btn btn-success">Create</button>
+																				<input type="submit" class="create-bib btn btn-success" value="Create">
 																			</div>
 																		</form>
 																		<div class="mt-5">
@@ -439,6 +439,8 @@ window.addEventListener('load', function() {
 	
 	$(document).ready(function(){
 			$('form').trigger('reset');
+			$(".pre-defined").selectpicker();
+			$(".custom-style").selectpicker();
 	$("#bib-results").hide();
 	$.ajax({
 		url:'user_actions.php',
@@ -452,8 +454,10 @@ window.addEventListener('load', function() {
 			html += '<option value="0">Select Bibliography</option>'
 //			console.log(res);
 			$.each(res,function(i){
+				console.log(res[i]);
 				for(var j in res[i]){
-					html+="<option value='"+res[i][j]+"'>"+j+"</option>"
+					console.log(res[i][j].group_name);
+					html+="<option value='"+res[i][j].group_id+"'>"+res[i][j].group_name+"</option>"
 
 	//				console.log(res[i][j]);
 		//			console.log(j);
@@ -513,11 +517,22 @@ window.addEventListener('load', function() {
 			}
 		});
 	});
-	$(".create-bib").click(function(){
-		alert("sdad");
+	$(".create-bib").on("click", function(){
+		//alert("sdad");
 		var bibName = $("#new-bibliograrphy").val();
-		var bibStyle = $(".selectpicker").val();
+		var bibStyle = "";
+		//console.log(bibStyle);
 		var bibType = $("input[name=style-type]:checked").val();
+		if(bibType == "pre-defined"){
+			console.log($(".selectpicker.pre-defined").val());
+			bibStyle = $(".selectpicker.pre-defined").val();
+		}
+		if(bibType == "custom-style"){
+			console.log($(".selectpicker.custom-style").val());
+			bibStyle = $(".selectpicker.custom-style").val();
+		}
+		console.log(bibType);
+		console.log(bibStyle);
 		if(bibName == 0 || bibStyle == ""){
 			if(bibName == 0){
 					$("#new-bibliograrphy").removeClass('valid');
@@ -530,7 +545,7 @@ window.addEventListener('load', function() {
 		}
 		else{
 			$.ajax({
-			url:'user_actions111.php',
+			url:'user_actions.php',
 			type:'POST',
 			dataType:'json',
 			data:{
@@ -593,9 +608,6 @@ $(".custom-file-input").on("change", function() {
 				})	;
 			}
 });
-var showChecked = $("input[name=style-type]:checked").val();
-console.log(showChecked);
-$("#" + showChecked).removeClass("d-none");
 
 
 $("input[name=style-type]").on("change", function(){

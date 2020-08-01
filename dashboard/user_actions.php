@@ -10,9 +10,11 @@
 		if(isset($_POST['type']) && $_POST['type'] == "create-bib"){
 			$bibName = $_POST['bibName'];
 			$bibStyle = $_POST['bibStyle'];
-			$token = $_COOKIE['token'];			
+			$bibType = $_POST['bibType'];
+			$token = $_COOKIE['token'];	
+					
 			$insertBibObj = new Insert($conn);
-			$res = $insertBibObj->insertBibliography($bibName,$bibStyle,$token);
+			$res = $insertBibObj->insertBibliography($bibName,$bibStyle,$bibType,$token);
 			echo json_encode($res);
 		}
 		if(isset($_POST['type']) && $_POST['type'] == "save-bibliography"){

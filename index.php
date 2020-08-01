@@ -45,9 +45,10 @@
 												<div class="tab-content text-center">
 													<div class="tab-pane active" id="profile">
 														<div class="form-group mb-0">
-															<input list="books" class="form-control" id="book" placeholder="Search Book" name="book"/>
+															<input list="books"  class="form-control" id="book" placeholder="Search Book" name="book"/>
+															<input type="hidden" id="hidden-id" value=""/>
 															<div class="results">
-																<ul>
+																<ul class="looping_element" tabindex="0">
 																																	
 																</ul>
 															</div>
@@ -64,7 +65,7 @@
 															<div class="form-group w-75">
 																<input list="article" class="form-control w-100" id="article" placeholder="Search Article" name="article"/>
 																<div class="article-results w-100">
-																	<ul>
+																	<ul class="article_looping_element" tabindex="0">
 																																		
 																	</ul>
 																</div>
@@ -228,5 +229,13 @@
 					
 					</footer>
                 </div>
-                
+<script>
+	window.addEventListener('load', function() {
+	
+
+
+
+
+	}, false);
+</script>             
 <?php include('footer.php');?>

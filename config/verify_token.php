@@ -2,7 +2,6 @@
     require "../vendor/autoload.php";
     use \Firebase\JWT\JWT;
 
-    
     //$jwt = $_POST["token"]; 
 
     class Verify extends JWT{

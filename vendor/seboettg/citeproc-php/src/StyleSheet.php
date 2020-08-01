@@ -39,7 +39,7 @@ class StyleSheet
     }
 	public static function loadCustomStyleSheet($user_id,$styleName){
         $stylesPath = $_SERVER["DOCUMENT_ROOT"] . "/my-project/vendor" ."/citation-style-language/styles-distribution/custom-styles/".$user_id."/". $styleName . '.csl';
-        echo $stylesPath;
+        //echo $stylesPath;
         $file = fopen($stylesPath, 'r');
         $data = stream_get_contents($file);
         fclose($file);

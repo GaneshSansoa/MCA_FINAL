@@ -17,17 +17,19 @@
 //			echo print_r($tokenData);
 			if($tokenData['status']== 'success'){
 			$id = $tokenData['data']['id'];
-			$stmt = $this->conn->prepare("SELECT group_id,group_name FROM citation_groups where user_id=".$id."");
+			$stmt = $this->conn->prepare("SELECT group_id,group_name,citation_type FROM citation_groups where user_id=".$id."");
 				$stmt->execute();
 				$result = $stmt->fetchAll();
 				$rows = $stmt->fetchColumn();
 				$bib_groups_name = array();
 				$bib_groups_id = array();
 				$bib_groups = array();
+				$bib_citation_type = array();
 				if(count($result) > 0){
 					foreach($result as $r){
 						array_push($bib_groups_name,$r['group_name']);
 						array_push($bib_groups_id,$r['group_id']);
+						array_push($bib_citation_type, $r['citation_type']);
 					}					
 				}
 				else{
@@ -35,8 +37,14 @@
 				}
 				
 
-				$bib_groups = array_combine($bib_groups_name,$bib_groups_id);
-				return array($bib_groups);
+				//$bib_groups = array_combine($bib_groups_name,$bib_groups_id,$bib_citation_type);
+				$result = array_map(function ($bib_groups_name, $bib_groups_id, $bib_citation_type) {
+					return array_combine(
+					  ['group_name', 'group_id', 'citation_type'],
+					  [$bib_groups_name, $bib_groups_id, $bib_citation_type]
+					);
+				  }, $bib_groups_name, $bib_groups_id, $bib_citation_type);
+				return array($result);
 			}
 			else{
 				return array('status'=>'error', 'message'=>'Unverified Token');
@@ -51,12 +59,16 @@
 				$stmt = $this->conn->prepare("SELECT * FROM user_citations INNER JOIN citation_groups ON user_citations.group_id = citation_groups.group_id where citation_groups.group_id = '".$bib_id."' and citation_groups.user_id='".$id."'");
 				$stmt->execute();
 				$results = $stmt->fetchAll();
-				$stmt1 = $this->conn->prepare("SELECT citation_style FROM citation_groups WHERE group_id = '".$bib_id."'");
+				// print_r($results);
+				$stmt1 = $this->conn->prepare("SELECT citation_style,citation_type,user_id FROM citation_groups WHERE group_id = '".$bib_id."'");
 				$stmt1->execute();
 				$results1 = $stmt1->fetchAll();
-				
+				// print_r($results1);die;
 				
 				$citation_style =  $results1[0]['citation_style'];
+				$citation_type = $results1[0]['citation_type'];
+				$user_id = $results1[0]["user_id"];
+				//  echo $citation_type;
 				$bibliographies = array();
 				$styled_bibs = array();
 				//echo print_r($results);die;
@@ -76,8 +88,17 @@
 					$meta = implode(', ',$test_arr);
 					$meta_data = "[" . $meta . "]";
 					//echo $meta_data;
+					$style;
+					if($citation_type === "pre-defined"){
+						// echo "in predefined";
+						$style = StyleSheet::loadStyleSheet($citation_style);
+					}
+					if($citation_type === "custom-style"){
+						// echo "In CUstom style";die;
+						 $style = StyleSheet::loadCustomStyleSheet($user_id,$citation_style);
+					}
+					//print_r($style);die;
 					
-					$style = StyleSheet::loadStyleSheet($citation_style);
 					$citeProc = new CiteProc($style);
 						$bibliography = '';
 						$bibliography = $citeProc->render(json_decode($meta_data), "bibliography");

@@ -49,7 +49,7 @@
 				echo $sql . "</br>" . $e->getMessage();
 			}
 		}
-		public function insertBibliography($bibName,$bibStyle,$token){
+		public function insertBibliography($bibName,$bibStyle,$bibType,$token){
 			$verifyToken = new Verify();
 			$tokenData = $verifyToken->verify_token($token);
 			if($tokenData['status']== 'success'){
@@ -57,11 +57,12 @@
 				$bibValidate = new Validator($this->conn);
 				$bibValidate = $bibValidate->bibliographyValidator($id,$bibName);
 				if($bibValidate['status'] == 'success'){
-					$stmt = $this->conn->prepare("INSERT INTO citation_groups (user_id, group_name,citation_style)
-						VALUES (:user_id, :group_name,:citation_style)");
+					$stmt = $this->conn->prepare("INSERT INTO citation_groups (user_id, group_name,citation_style,citation_type)
+						VALUES (:user_id, :group_name,:citation_style, :citation_type)");
 					$stmt->bindParam(':user_id', $id);
 					$stmt->bindParam(':group_name', $bibName);
 					$stmt->bindParam(':citation_style', $bibStyle);
+					$stmt->bindParam(':citation_type', $bibType);
 					$stmt->execute();
 					return array('status'=>'success','group_id'=>$bibValidate['group_id']);					
 				}
