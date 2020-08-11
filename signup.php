@@ -1,5 +1,12 @@
+
 <?php 
 include_once('config/config.php');
+if(isset($_COOKIE['token'])){
+	
+	$home = BASE_URL;
+	//echo $home;
+	header("Location: $home");
+}
 include(ROOT_PATH ."header.php");?>
         <!-- ============================================================== -->
         <!-- Page wrapper  -->
@@ -148,11 +155,21 @@ include(ROOT_PATH ."header.php");?>
 								</div>
 						</div>
 					</section>
-					
+
 				</div>
+				<div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true" style="display: none;">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="mySmallModalLabel">Success</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            </div>
+                                            <div class="modal-body"></div>
+                                        </div>
+                                        <!-- /.modal-content -->
+                                    </div>
+                                    <!-- /.modal-dialog -->
+                </div>
 				<script>
-                if(localStorage.token){
-                    window.location = '<?php echo BASE_URL;?>dashboard';
-                }
             </script>
 <?php include('footer.php');?>

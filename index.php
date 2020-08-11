@@ -219,7 +219,7 @@
 									</div>
 									<!-- Column -->
 									<div class="col-md-12 m-t-20 text-center">
-										<a class="btn btn-success-gradiant btn-md btn-arrow"><span>View Feature5 code <i class="ti-arrow-right"></i></span></a>
+										<a href="/my-project/signup.php" class="btn btn-success-gradiant btn-md btn-arrow text-white"><span>Register Now <i class="fas fa-arrow-right"></i></span></a>
 									</div>
 								</div>
 							</div>

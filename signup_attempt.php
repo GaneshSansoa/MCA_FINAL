@@ -1,6 +1,7 @@
 <?php 
 	include_once('config/connection.php');
 	include_once('config/insert.php');
+	include_once('config/validator.php');
 	$db = new DBConnect();
 	$conn = $db->getConnection($db);
 	if(isset($_POST["type"])){

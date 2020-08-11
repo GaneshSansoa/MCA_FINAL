@@ -78,7 +78,7 @@ require_once('config/config.php');
 											<div class="rounded-button" id="login-logout">
                                             <?php if(isset($_COOKIE['token'])):?>
                                                 <?php $_COOKIE['token'];?>
-                                                <a href='#' style='margin:0px' id='logout'>Logout</a>                                            
+                                                <a href="<?php echo BASE_URL;?>dashboard">Dashboard</a> - OR - <a href='#' style='margin:0px' id='logout'>Logout</a>                                   
                                             <?php else:?>
 												<a href="<?php echo BASE_URL;?>login.php">Login</a> - OR - <a href="<?php echo BASE_URL;?>signup.php">Register</a>
                                             <?php endif;?>

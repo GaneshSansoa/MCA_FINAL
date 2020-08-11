@@ -18,6 +18,9 @@
 			echo json_encode($res);
 		}
 		if(isset($_POST['type']) && $_POST['type'] == "save-bibliography"){
+			// print_r("in Save Bib");
+			// print_r($_POST);
+			// print_r($_COOKIE['token']);
 			$bibString = $_POST['bibJson'];
 			$bib_id = $_POST['bibValue'];
 			$bib_style = $_POST['bibStyle'];
@@ -29,9 +32,10 @@
 		if(isset($_POST['type']) && $_POST['type'] == "change-style"){
 			$bib_id = $_POST["bib_id"];
 			$bibStyle = $_POST["bibStyle"];
+			$bibType = $_POST["bibType"];
 			$token = $_COOKIE['token'];
 			$updateStyle = new Update($conn);
-			$res = $updateStyle->updateStyle($token, $bib_id, $bibStyle);
+			$res = $updateStyle->updateStyle($token, $bib_id, $bibStyle, $bibType);
 			echo json_encode($res);
 		}
 		if(isset($_POST['type']) && $_POST['type'] == "old-password-check"){

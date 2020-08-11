@@ -56,6 +56,7 @@
 //			echo print_r($tokenData);
 			if($tokenData['status']== 'success'){
 				$id = $tokenData['data']['id'];
+				
 				$stmt = $this->conn->prepare("SELECT * FROM user_citations INNER JOIN citation_groups ON user_citations.group_id = citation_groups.group_id where citation_groups.group_id = '".$bib_id."' and citation_groups.user_id='".$id."'");
 				$stmt->execute();
 				$results = $stmt->fetchAll();
@@ -66,6 +67,7 @@
 				// print_r($results1);die;
 				
 				$citation_style =  $results1[0]['citation_style'];
+				// echo $citation_style;
 				$citation_type = $results1[0]['citation_type'];
 				$user_id = $results1[0]["user_id"];
 				//  echo $citation_type;

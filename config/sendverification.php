@@ -4,7 +4,7 @@ require_once(__DIR__.'\..\vendor\autoload.php');
 // Create the Transport
 $transport = (new Swift_SmtpTransport('smtp.gmail.com', 465, 'ssl'))
     ->setUsername("gchaudhary1995@gmail.com ")
-    ->setPassword("geshi769664");
+    ->setPassword("geshi@769664");
 
 // Create the Mailer using your created Transport
 $mailer = new Swift_Mailer($transport);
@@ -46,7 +46,7 @@ function sendVerificationEmail($userEmail, $token)
 
     // Create a message
     $message = (new Swift_Message('Verify your email'))
-        ->setFrom("gchaudhary1995@gmail.com")
+        ->setFrom(["gchaudhary1995@gmail.com" => "Set My Citations"])
         ->setTo($userEmail)
         ->setBody($body, 'text/html');
 

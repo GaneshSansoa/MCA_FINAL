@@ -9,7 +9,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 }
 
 
-// print_r($data);
+//  print_r($data);
 // echo count($data['authors']);
 ?>
 <?php include("header.php");?>
@@ -35,13 +35,13 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
                                           <div class="card card-nav-tabs">
 											<div class="header header-primary">
 												<!-- colors: "header-primary", "header-info", "header-success", "header-warning", "header-danger" -->
-												<h4>Cite Book</h4>
+												<h4 class="ml-3">Cite Book</h4>
 											</div>
 											<div class="card-content">
-                                                <form class="needs-validation" novalidate="" method="post" action="cite-result.php" id="frm-submit" onsubmit="return false;">
+                                                <form class="needs-validation" method="post" action="cite-result.php" id="frm-submit" onsubmit="return false;">
                                                     <div class="form-row" id="contrib">
                                                         
-                                                        <?php if(isset($data)):?>
+                                                        <?php if(isset($data['authors'])):?>
                                                             <?php $count=0;?>
                                                         <?php foreach($data['authors'] as $author):
 

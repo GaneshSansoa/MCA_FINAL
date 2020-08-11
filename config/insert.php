@@ -37,8 +37,9 @@
 				if($userValidate == false && $emailValidate == false){
 					$stmt->execute();
 					//return true;
+					
+					echo json_encode(array("response"=> array("status"=>"success", "email" => $email)));
 					sendVerificationEmail($email,$token);
-					echo json_encode(array("response"=> array("status"=>"success")));
 				}
 				else{
 					echo json_encode(array("response"=> array("status"=>"error")));
@@ -64,7 +65,8 @@
 					$stmt->bindParam(':citation_style', $bibStyle);
 					$stmt->bindParam(':citation_type', $bibType);
 					$stmt->execute();
-					return array('status'=>'success','group_id'=>$bibValidate['group_id']);					
+					$group_id = $this->conn->lastInsertId();
+					return array('status'=>'success','group_id'=>$group_id);					
 				}
 				else{
 					return $bibValidate;
@@ -78,14 +80,24 @@
 
 		}
 		public function insertGroup($token,$bib_id,$bibString){
+			// print_r("in group");
 			$verifyToken = new Verify();
 			$tokenData = $verifyToken->verify_token($token);
+			
+			// echo(($bib_id));die;
 			if($tokenData['status']== 'success'){
 				$id = $tokenData['data']['id'];
-				$stmt = $this->conn->prepare("INSERT INTO user_citations(group_id,citations) values(:group_id, :citations)");
-				$stmt->bindParam(':group_id',$bib_id);
-				$stmt->bindParam(':citations',$bibString);
-				$stmt->execute();
+				try{
+					
+					$stmt = $this->conn->prepare("INSERT INTO user_citations(group_id,citations) values(:group_id, :citations)");
+					$stmt->bindParam(':group_id',$bib_id);
+					$stmt->bindParam(':citations',$bibString);
+					$stmt->execute();
+					// echo $this->conn->lastInsertId();
+				}
+				catch(Exception $e){
+					return array("status" => "error", "message" => $e->getMessage());
+				}
 				//$stmt = $this->conn->prepare();
 				return array('status'=>'success');
 			}
@@ -112,13 +124,19 @@
 						if (move_uploaded_file($cslFile["tmp_name"], $target_file)) {
 							return array('status'=>'success');
 						}
+						else{
+							return array('status' => 'error', 'message' => 'Something went wrong, try again later');
+						}
 					}
 				}
 				else{
-					echo $target_dir;
+					// echo $target_dir;
 					mkdir($target_dir, 0777);
 					if (move_uploaded_file($cslFile["tmp_name"], $target_file)) {
 						return array('status'=>'success');
+					}
+					else{
+						return array('status' => 'error', 'message' => 'Something went wrong, try again later');
 					}
 				}
 

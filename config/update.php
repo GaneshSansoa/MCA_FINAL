@@ -10,12 +10,13 @@
 		public function __construct($db){
 			$this->conn = $db;
 		}
-		public function updateStyle($token, $bib_id, $bibStyle){
+		public function updateStyle($token, $bib_id, $bibStyle, $bibType){
 			$verifyToken = new Verify();
 			$tokenData = $verifyToken->verify_token($token);
 //			echo print_r($tokenData);
 			if($tokenData['status']== 'success'){
-				$stmt = $this->conn->prepare("UPDATE citation_groups set citation_style= '".$bibStyle."' WHERE group_id = '".$bib_id."'");
+				//echo $bib_id . ", " . $bibStyle . ", ". $bibType;
+				$stmt = $this->conn->prepare("UPDATE citation_groups set citation_style='".$bibStyle."', citation_type='".$bibType."' WHERE group_id = '".$bib_id."'");
 				$stmt->execute();
 				$fetch_updated_bibs = new Fetch($this->conn);
 				$res = $fetch_updated_bibs->get_bibliographies_groups($token,$bib_id);

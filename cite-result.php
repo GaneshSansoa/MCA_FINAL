@@ -76,8 +76,8 @@ $cssStyles = $citeProc->renderCssStyles();
                                 <div class="card bg-success-gradiant text-white">
                                     <div class="card-body">
                                         <h6 class="font-medium text-white">Join Now</h6>
-                                        <p class="m-t-20">Lorem ipsum dolor sit amet, consecte tuam porttitor, nunc et fringilla.</p>
-                                        <a href="#f4" class="linking">Learn More <i class="fa fa-arrow-right"></i></a>
+                                        <p class="m-t-20">Join Now to create, manage and upload custom citations.</p>
+                                        <a href="/my-project/signup.php" class="linking">Register Here <i class="fa fa-arrow-right"></i></a>
                                     </div>
                                 </div>
                                  </div>
@@ -169,39 +169,46 @@ $cssStyles = $citeProc->renderCssStyles();
 					<label for="">Select Custom Style</label>
 						<select  class="form-control custom-style selectpicker" data-live-search="true" data-size="5" data-dropup-auto="false" id="format" title="Select Format..." required>
 							<?php
+								
 								$directory = 'vendor/citation-style-language/styles-distribution/custom-styles/'. $user_id;
-
+								if(is_dir($directory)){
 								// Will exclude everything under these directories
-								$exclude = array('.git', 'dependent');
-								$filter = function ($file, $key, $iterator) use ($exclude) {
-									if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
-										return true;
-									}
-									return $file->isFile();
-								};
-
-								$innerIterator = new RecursiveDirectoryIterator(
-									$directory,
-									RecursiveDirectoryIterator::SKIP_DOTS
-								);
-								$iterator = new RecursiveIteratorIterator(
-									new RecursiveCallbackFilterIterator($innerIterator, $filter)
-								);
-
-								foreach ($iterator as $pathname => $fileInfo) {
-									// do your insertion here
-									$file = $fileInfo->getFilename();
-									$without_extension = substr($file, 0, strrpos($file, "."));
-									$string = str_replace('-', ' ', $without_extension);
-									$formatted = ucwords($string);
-									$words = explode(" ", $formatted);
-										$acronym = "";
-
-										foreach ($words as $w) {
-										$acronym .= $w[0];
+									$exclude = array('.git', 'dependent');
+									$filter = function ($file, $key, $iterator) use ($exclude) {
+										if ($iterator->hasChildren() && !in_array($file->getFilename(), $exclude)) {
+											return true;
 										}
-									echo "<option value=".$without_extension." data-tokens=".$acronym.">" . ucwords($string) . "</option>";
+										return $file->isFile();
+									};
+
+									$innerIterator = new RecursiveDirectoryIterator(
+										$directory,
+										RecursiveDirectoryIterator::SKIP_DOTS
+									);
+									$iterator = new RecursiveIteratorIterator(
+										new RecursiveCallbackFilterIterator($innerIterator, $filter)
+									);
+
+									foreach ($iterator as $pathname => $fileInfo) {
+										// do your insertion here
+										$file = $fileInfo->getFilename();
+										$without_extension = substr($file, 0, strrpos($file, "."));
+										$string = str_replace('-', ' ', $without_extension);
+										$formatted = ucwords($string);
+										$words = explode(" ", $formatted);
+											$acronym = "";
+
+											foreach ($words as $w) {
+											$acronym .= $w[0];
+											}
+										echo "<option value=".$without_extension." data-tokens=".$acronym.">" . ucwords($string) . "</option>";
+									
+									}
+									
 								}	
+								else{
+										echo "<option value='' data-tokens='0' selected disabled>No Style Available</option>";
+								}
 							?>
 						</select>
 					<div class="validation-msg-style">

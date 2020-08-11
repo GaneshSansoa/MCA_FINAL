@@ -15,7 +15,7 @@ require_once('config/config.php');
 </div>
 <div class="col-lg-3 col-md-6 m-b-30">
     <h5 class="m-b-20">Email</h5>
-    <p>Office :  <a href="#" class="link">gsasnsoa16@gmail.com</a> <br/>Site :  <a href="#" class="link">gchaudhary1995@gmail.com</a></p>
+    <p>Office :  <a href="mailto:gsansoa16@gmail.com" class="link">gsasnsoa16@gmail.com</a> <br/>Site :  <a href="mailto:gsansoa16@gmail.com" class="link">gchaudhary1995@gmail.com</a></p>
 </div>
 <div class="col-lg-3 col-md-6">
     <h5 class="m-b-20">Social</h5>
@@ -31,7 +31,7 @@ require_once('config/config.php');
 <div class="row">
     <div class="col-md-12">
         <nav class="navbar navbar-expand-lg h1-nav">
-          <a class="navbar-brand" href="#"><img src="../assets/images/logos/green-logo.png" alt="Set My Citations" width="50" /></a>
+          <a class="navbar-brand" href="#"><img src="images/logo.svg" alt="Set My Citations" width="100" /></a>
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#header1" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="ti-menu"></span>
           </button>
